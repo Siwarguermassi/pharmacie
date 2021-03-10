@@ -1,0 +1,72 @@
+{% extends "base1.html.twig" %}
+
+{% block title %}Pharmacie index
+{% endblock %}
+
+
+{% block body %}
+	<section id="hero" class="hero d-flex align-items-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header card-header-primary">
+							<h4 class="card-title ">Liste des pharmacies</h4>
+							<p class="card-category">
+								Pour ajouter une pharmacie , clique sur
+								<a href="{{ path('pharmacie_new') }}" class="btn btn-dark btn-round">Ajouter
+								</a>
+							</p>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table">
+									<thead class=" text-primary">
+										<tr>
+											<th scope="col">Id</th>
+											<th scope="col">Nom</th>
+											<th scope="col">Adresse</th>
+											<th scope="col">Gouvernorat</th>
+											<th scope="col">Image de la pattente</th>
+											<th scope="col">Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for pharmacie in pharmacies %}
+											<tr>
+												<td>{{ pharmacie.id }}</td>
+												<td>{{ pharmacie.nom }}</td>
+												<td>{{ pharmacie.adr }}</td>
+												<td>{{ pharmacie.gouv }}</td>
+												
+												<td><img src="/photos/{{ pharmacie.imgPat }}" heigth="50px" width="50px;"></td>
+												<td>
+													<a href="{{ path('pharmacie_edit', {'id': pharmacie.id}) }}" class="btn btn-success btn-round">
+														<span class="material-icons">
+															build
+														</span>
+													</a>
+													<a href="{{ path('pharmacie_delete', {'id': pharmacie.id}) }}" class="btn btn-danger btn-round">
+														<span class="material-icons">
+															remove_circle_outline
+														</span>
+													</a>
+												</td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="6">no records found</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+{% endblock %}

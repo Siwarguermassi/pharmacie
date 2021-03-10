@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Medicament index
+{% endblock %}
+
+{% block body %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<h1 class="aos-init aos-animate" data-aos="fade-up">Liste des médicaments</h1>
+	</div>
+
+	<section id="hero" class="hero d-flex align-items-center">
+
+
+		<div class="container">
+
+			<table class="table table-striped">
+				<thead class="table-dark">
+					<tr>
+						<th>Nom</th>
+						<th>Fournisseur</th>
+						<th>Prix_achat</th>
+						<th>Poid</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for medicament in medicaments %}
+						<tr>
+							<td>{{ medicament.nom }}</td>
+							<td>{{ medicament.fournisseur }}</td>
+							<td>{{ medicament.prixAchat }} <span style="color : red;">TND</span></td>
+							<td>{{ medicament.poid }} <span style="color : red;">g</span></td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+
+		</div>
+	</section>
+
+{% endblock %}

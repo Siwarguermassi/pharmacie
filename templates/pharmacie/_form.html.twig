@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+    {{ form_widget(form.nom, {'attr' : {'class' : 'form-control' }}) }}
+    {{ form_widget(form.adr, {'attr' : {'class' : 'form-control' }}) }}
+    {{ form_widget(form.gouv, {'attr' : {'class' : 'form-control' }}) }}
+    {{ form_widget(form.img_pat, {'attr' : {'class' : 'form-control' }}) }}
+    <button class="btn btn-round">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

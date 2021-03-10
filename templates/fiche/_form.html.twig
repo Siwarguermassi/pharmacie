@@ -1,0 +1,5 @@
+{{ form_start(form) }}
+{{ form_widget(form.qte, {'attr' : {'class' : 'form-control' }}) }}
+{{ form_widget(form.prix_vente, {'attr' : {'class' : 'form-control' }}) }}
+<button class="btn btn-round">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
