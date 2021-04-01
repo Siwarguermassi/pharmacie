@@ -13,13 +13,18 @@
 				<td>{{ fiche.id }}</td>
 			</tr>
 			<tr>
-				<th>Qte</th>
-				<td>{{ fiche.qte }}</td>
+				<th>Nom_Commerciale</th>
+				<td>{{ fiche.nom_commerciale}}</td>
 			</tr>
 			<tr>
-				<th>Pri de vente</th>
-				<td>{{ fiche.prixVente }}</td>
+				<th>Dosage</th>
+				<td>{{ fiche.dosage }}</td>
 			</tr>
+			<tr>
+				<th>Utilisation</th>
+				<td>{{ fiche.utilisation}}</td>
+			</tr>
+
 
 			<tr>
 				<th>Nom médicament</th>
@@ -30,6 +35,7 @@
 	</table>
 
 	<a href="{{ path('fiche_index') }}" class="btn btn-info btn-round">Retourner à la liste</a><br>
+	
 
 	<a href="{{ path('fiche_edit', {'id': fiche.id}) }}" class="btn btn-round">Modifier</a>
 

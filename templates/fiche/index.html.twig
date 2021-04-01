@@ -19,8 +19,9 @@
 									<thead class=" text-primary">
 										<tr>
 											<th>Id</th>
-											<th>Qte</th>
-											<th>Prix_vente</th>
+											<th>nom_commerciale</th>
+											<th>dosage</th>
+											<th>utilisation</th>
 											<th>Nom médicament</th>
 											<th>actions</th>
 											<th></th>
@@ -30,8 +31,9 @@
 										{% for fiche in fiches %}
 											<tr>
 												<td>{{ fiche.id }}</td>
-												<td>{{ fiche.qte }}</td>
-												<td>{{ fiche.prixVente }}</td>
+												<td>{{ fiche.nom_commerciale }}</td>
+												<td>{{ fiche.dosage}}</td>
+												<td>{{ fiche.utilisation}}</td>
 												<td>{{ fiche.idMed.nom }}</td>
 												<td>
 													<a href="{{ path('fiche_show', {'id': fiche.id}) }}" class="btn btn-success btn-round">Consulter</a><br>
@@ -40,12 +42,12 @@
 												<td>
 													<form action="{{ path('fiche_qtea', {'id' : fiche.id}) }}" method="post" name="form">
 												
-													<input type="text" id="{{fiche.id}}" name="qte1" value="" hidden>
+													<input type="text" id="{{fiche.id}}" name="dosage1" value="" hidden>
 												
 													<input type="submit"  onclick="f1({{fiche.id}})" class="btn btn-success btn-round" value="+">
 													</input><br></form>
 													<form action="{{ path('fiche_qtem', {'id' : fiche.id}) }}" method="post" name="form">
-													<input type="text" id="{{fiche.id}}a" name="qte2" value="" hidden>
+													<input type="text" id="{{fiche.id}}a" name="dosage2" value="" hidden>
 													<input type="submit" class="btn btn-danger btn-round" onclick="f({{fiche.id}})" value="--">
 													</input>
 													</form>

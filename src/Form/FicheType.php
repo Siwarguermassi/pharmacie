@@ -15,9 +15,9 @@ class FicheType extends AbstractType
     {
         
         $builder
-            ->add('qte')
-            ->add('prix_vente')
-
+            ->add('nom_commerciale')
+            ->add('dosage')
+            ->add('utilisation')
             
         ;
     }

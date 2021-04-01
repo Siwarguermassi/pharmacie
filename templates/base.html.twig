@@ -16,6 +16,7 @@
 
 
 			<!-- Favicons -->
+			<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 			<link href="{{ asset ('front/img/favicon.png')}}" rel="icon">
 			<link
 			href="{{ asset ('front/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
@@ -32,7 +33,7 @@
 			<link href="{{ asset ('front/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 			<link
 			href="{{ asset ('front/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
-			
+
 			<!-- Template Main CSS File -->
 			<link href="{{ asset ('front/css/style.css')}}" rel="stylesheet">
 
@@ -63,10 +64,10 @@
 						</li>
 						<li>
 							<form action="{{ path('search') }}" method="post">
-							<div class="form-group" style="display:flex; justify-content : flex-end;">
-								<input type="text" name="inp" id="inp" class="form-control">
-								<input type="submit" value="Rechercher" class="btn btn-primary btn-round">
-							</div>
+								<div class="form-group" style="display:flex; justify-content : flex-end;">
+									<input type="text" name="inp" id="inp" class="form-control">
+									<input type="submit" value="Rechercher" class="btn btn-primary btn-round">
+								</div>
 							</form>
 						</li>
 					</ul>
@@ -78,7 +79,7 @@
 		</header>
 		<!-- End Header -->
 
-        {% block body %}{% endblock %}
+		{% block body %}{% endblock %}
 
 		<!-- ======= Footer ======= -->
 		<footer id="footer" class="footer">
@@ -207,7 +208,8 @@
 					<!-- All the links in the footer should remain intact. -->
 					<!-- You can delete the links only if you purchased the pro version. -->
 					<!-- Licensing information: https://bootstrapmade.com/license/ -->
-					<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->Designed by
+					<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+					Designed by
 						<a href="https://bootstrapmade.com/"> BootstrapMade</a>
 				</div>
 			</div>
@@ -231,6 +233,6 @@
 			<script src="{{ asset ('front/js/main.js')}}"></script>
 		{% endblock %}
 	</body>
-       
+
 
 </html>

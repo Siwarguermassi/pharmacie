@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="clearfix"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <form class="form-group" action="{{ path('fiche_mail', {'id' : fiche.id}) }}" method="post">  
+                <input type="email" name="mail" id="mail" class="form-control" placeholder = "Votre mail">
+                <input type="submit" value="Envoyer mail" class="btn btn-primary ">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

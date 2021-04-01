@@ -46,7 +46,7 @@
 			
 		</div>
 	</section>
-    {% else %}
+	{% elseif medicaments != NULL %}
 	<br>
 	<br>
 	<br>
@@ -95,8 +95,41 @@
 
 		</div>
 	</section>
+	{% else %}
+		<div class="container">
+			<h1 class="aos-init aos-animate" data-aos="fade-up">Liste des Pharmacies</h1>
+		</div>
+		<section id="hero" class="hero d-flex align-items-center">
+			<div class="container">
+				<table class="table table-striped">
+					<thead class="table-dark">
+					<tr>
+						<th scope="col">Nom</th>
+						<th scope="col">Adresse</th>
+						<th scope="col">Gouvernorat</th>
+
+					</tr>
+					</thead>
+					<tbody>
+					{% for pharmacie in pharm_gouv %}
+						<tr>
+							<td>{{ pharmacie.nom }}</td>
+							<td>{{ pharmacie.adr }}</td>
+							<td>{{ pharmacie.gouv }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6">no records found</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
 
 
+			</div>
+		</section>
 
-    {% endif %}
+	{% endif %}
+
+
 {% endblock %}

@@ -37,6 +37,11 @@ class Pharmacie
      */
     private $img_pat;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $note;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Pharmacie
     public function setImgPat(?string $img_pat): self
     {
         $this->img_pat = $img_pat;
+
+        return $this;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(?int $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

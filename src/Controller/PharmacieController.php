@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Pharmacie;
 use App\Form\PharmacieType;
 use App\Repository\PharmacieRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +23,16 @@ class PharmacieController extends AbstractController
     /**
      * @Route("/", name="pharmacie_index", methods={"GET"})
      */
-    public function index(PharmacieRepository $pharmacieRepository): Response
+    public function index(PharmacieRepository $pharmacieRepository,Request $request,PaginatorInterface $paginator): Response
     {
+        $donnees=$pharmacieRepository->findAll();
+        $pharmacies=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4
+        );
         return $this->render('pharmacie/index.html.twig', [
-            'pharmacies' => $pharmacieRepository->findAll(),
+            'pharmacies' => $pharmacies,
         ]);
     }
 
@@ -34,7 +43,7 @@ class PharmacieController extends AbstractController
     {
         return $this->render('pharmacie/index1.html.twig', [
             'pharmacies' => $pharmacieRepository->findAll(),
-            
+
         ]);
     }
 
@@ -56,7 +65,7 @@ class PharmacieController extends AbstractController
 
                 // this condition is needed because the 'brochure' field is not required
                 // so the PDF file must be processed only when a file is uploaded
-                
+
                 if ($permisFile) {
                     $originalFilename = pathinfo($permisFile->getClientOriginalName(), PATHINFO_FILENAME);
                     // this is needed to safely include the file name as part of the URL
@@ -86,7 +95,6 @@ class PharmacieController extends AbstractController
 
                 return $this->redirectToRoute('pharmacie_index1');
             }
-
         }
         return $this->render('pharmacie/new.html.twig', [
             'pharmacie' => $pharmacie,
@@ -94,6 +102,38 @@ class PharmacieController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/pharmaciesP", name="pharmacies_P", methods={"GET"})
+     */
+    public function showPharmacieP(): Response
+    {
+        $options = new Options();
+        $options->set('defaultFont', 'Roboto');
+
+
+        $dompdf = new Dompdf($options);
+
+        $data = array(
+            'headline' => 'my headline'
+        );
+
+        $pharmacies = $this->getDoctrine()->getRepository(Pharmacie::class)->findAll();
+
+        $html = $this->renderView('pharmacie/pharmaciesP.html.twig', [
+            'pharmacies' => $pharmacies,
+        ]);
+
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("Pharmaciespdf.pdf", [
+            "Attachment" => true
+        ]);
+
+
+    }
 
     /**
      * @Route("/{id}", name="pharmacie_show", methods={"GET"})
@@ -105,7 +145,7 @@ class PharmacieController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * @Route("/admin/{id}", name="pharmacie_show1", methods={"GET"})
      */
     public function show1(Pharmacie $pharmacie): Response
@@ -125,34 +165,34 @@ class PharmacieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-                /** @var UploadedFile $permisFile */
-                $slugger = new AsciiSlugger();
-                $permisFile = $form->get('img_pat')->getData();
+            /** @var UploadedFile $permisFile */
+            $slugger = new AsciiSlugger();
+            $permisFile = $form->get('img_pat')->getData();
 
-                // this condition is needed because the 'brochure' field is not required
-                // so the PDF file must be processed only when a file is uploaded
-                if ($permisFile) {
-                    $originalFilename = pathinfo($permisFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $permisFile->guessExtension();
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($permisFile) {
+                $originalFilename = pathinfo($permisFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $permisFile->guessExtension();
 
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $permisFile->move(
-                            $this->getParameter('img_pat_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-
-                    // updates the 'brochureFilename' property to store the PDF file name
-                    // instead of its contents
-                    $pharmacie->setImgPat($newFilename);
+                // Move the file to the directory where brochures are stored
+                try {
+                    $permisFile->move(
+                        $this->getParameter('img_pat_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
                 }
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->flush();
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $pharmacie->setImgPat($newFilename);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
             return $this->redirectToRoute('pharmacie_index1');
         }
 
@@ -160,6 +200,16 @@ class PharmacieController extends AbstractController
             'pharmacie' => $pharmacie,
             'form' => $form->createView(),
         ]);
+    }
+    /**
+     * @Route("/note_add/{n}/{id}", name="note_add")
+     */
+    public function add($n, Pharmacie $pharmacie): Response
+    {
+        $pharmacie->setNote($pharmacie->getNote() + $n);
+
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute("pharmacie_index");
     }
 
     /**

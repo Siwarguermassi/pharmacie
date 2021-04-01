@@ -40,8 +40,7 @@ class FicheController extends AbstractController
         $med = $this->getDoctrine()->getRepository(Medicament::class)->findOneBy(['id' => $id]);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $fiche->setQte($form->get('qte')->getData());
-            $fiche->setPrixVente($form->get('prix_vente')->getData());
+            $fiche->setDosage($form->get('dosage')->getData());
             $med->setFicheExist(true);
             $fiche->setIdMed($med);
             $entityManager->persist($fiche);
@@ -69,13 +68,25 @@ class FicheController extends AbstractController
     }
 
     /**
+     * @Route("/front/{id}", name="fiche_show1", methods={"GET"})
+     */
+    public function show1(Medicament $med): Response
+    {
+        $fiche = $this->getDoctrine()->getRepository(Fiche::class)->findOneBy(['id_med' => $med]);
+
+        return $this->render('fiche/show1.html.twig', [
+            'fiche' => $fiche,
+        ]);
+    }
+
+    /**
      * @Route("/qtea/{id}", name="fiche_qtea", methods={"POST"})
      */
     public function qtea(Fiche $fiche, Request $request): Response
     {
        
         $entityManager = $this->getDoctrine()->getManager();
-        $fiche->setQte($fiche->getQte()+(int)$request->request->get('qte1'));
+        $fiche->setDosage($fiche->getDosage()+(int)$request->request->get('dosage1'));
         $entityManager->flush();
         return $this->redirectToRoute('fiche_index');
     }
@@ -85,10 +96,10 @@ class FicheController extends AbstractController
      */
     public function qtem(Fiche $fiche, Request $request): Response
     {   
-        if($fiche->getQte() == 0 || (int)$request->request->get('qt2') > $fiche->getQte())
+        if($fiche->getDosage() == 0 || (int)$request->request->get('dosage2') > $fiche->getDosage())
         return $this->redirectToRoute('fiche_index');
         
-        $fiche->setQte($fiche->getQte()-(int)$request->request->get('qte2'));
+        $fiche->setDosage($fiche->getDosage()-(int)$request->request->get('dosage2'));
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
         return $this->redirectToRoute('fiche_index');
@@ -114,6 +125,38 @@ class FicheController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/form_mail/{id}" , name="form_mail")
+     */
+    public function form(Fiche $med){
+        return $this->render("fiche/form_mail.html.twig",[
+            'fiche' => $med
+        ]);
+    }
+
+    /**
+     * @Route("/fiche_mail/{id}" , name="fiche_mail")
+     */
+    public function mail(\Swift_Mailer $mailer , Fiche $fiche, Request $request){
+        
+        $message = (new \Swift_Message('Fiche Email'))
+                ->setFrom('siwar.guermassi@esprit.tn')
+                ->setTo($request->request->get('mail'))
+                ->setBody(
+                    $this->renderView(
+                        // templates/hello/email.txt.twig
+                        'fiche/fiche.txt.twig',
+                        [
+                            'fiche' => $fiche
+                        ]
+                    )
+                )
+            ;
+           
+            $mailer->send($message);
+                 
+               return $this->redirectToRoute("medicament_index")  ;
+    }
     /**
      * @Route("/{id}", name="fiche_delete", methods={"DELETE"})
      */

@@ -42,7 +42,7 @@
 
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary pull-right btn-round">Ajouter</button>
+				<button type="submit" class="btn btn-primary pull-right btn-round" onclick="f()">Ajouter</button>
 				<div class="clearfix"></div>
 				{{ form_end(form) }}
 			</div>
@@ -51,4 +51,9 @@
 </div>
 
 	<a href="{{ path('pharmacie_index1') }}" class="btn btn-info btn-round">Retourner à liste</a>
+	<script>
+		function f (){
+			window.alert("Voulez-vous vraiment continuer ?");
+		}
+	</script
 {% endblock %}

@@ -25,6 +25,7 @@
 						<th>Fournisseur</th>
 						<th>Prix_achat</th>
 						<th>Poid</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,6 +35,11 @@
 							<td>{{ medicament.fournisseur }}</td>
 							<td>{{ medicament.prixAchat }} <span style="color : red;">TND</span></td>
 							<td>{{ medicament.poid }} <span style="color : red;">g</span></td>
+							<td> {% if medicament.ficheExist == true %}
+									<a href="{{ path('fiche_show1', {'id': medicament.id}) }}" class="btn btn-success btn-round">
+										Consulter fiche
+									</a>
+								{% endif %} </td>
 						</tr>
 					{% else %}
 						<tr>

@@ -22,15 +22,21 @@ class Fiche
      */
     private $id_med;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $qte;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string",length=255,nullable=true)
      */
-    private $prix_vente;
+    public $nom_commerciale;
+
+    /**
+     * @ORM\Column(type="integer",length=255,nullable=true)
+     */
+    private $dosage;
+
+    /**
+     * @ORM\Column(type="string",length=255,nullable=true)
+     */
+    private $utilisation;
 
     public function getId(): ?int
     {
@@ -49,27 +55,52 @@ class Fiche
         return $this;
     }
 
-    public function getQte(): ?int
+    /**
+     * @return mixed
+     */
+    public function getNomCommerciale()
     {
-        return $this->qte;
+        return $this->nom_commerciale;
     }
 
-    public function setQte(?int $qte): self
+    /**
+     * @param mixed $nom_commerciale
+     */
+    public function setNomCommerciale($nom_commerciale): void
     {
-        $this->qte = $qte;
-
-        return $this;
+        $this->nom_commerciale = $nom_commerciale;
     }
 
-    public function getPrixVente(): ?float
+    /**
+     * @return mixed
+     */
+    public function getDosage()
     {
-        return $this->prix_vente;
+        return $this->dosage;
     }
 
-    public function setPrixVente(?float $prix_vente): self
+    /**
+     * @param mixed $dosage
+     */
+    public function setDosage($dosage): void
     {
-        $this->prix_vente = $prix_vente;
-
-        return $this;
+        $this->dosage = $dosage;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUtilisation()
+    {
+        return $this->utilisation;
+    }
+
+    /**
+     * @param mixed $utilisation
+     */
+    public function setUtilisation($utilisation): void
+    {
+        $this->utilisation = $utilisation;
+    }
+
 }
